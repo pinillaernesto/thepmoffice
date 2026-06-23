@@ -1,0 +1,362 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Monitor Electoral 2026 — Segunda Vuelta | The PM Office</title>
+<meta name="description" content="Análisis de datos de la segunda vuelta presidencial de Colombia 2026. Tablero interactivo de resultados por departamento y municipio.">
+
+<!-- ============================================================= -->
+<!-- GOOGLE ANALYTICS GA4                                           -->
+<!-- ============================================================= -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-9R18511JE5"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-9R18511JE5');
+</script>
+<!-- Open Graph para que se vea bien al compartir en LinkedIn -->
+<meta property="og:title" content="Proyecté quién ganaría la presidencia de Colombia con menos del 1% de error">
+<meta property="og:description" content="Monitor electoral de la segunda vuelta presidencial 2026. Tablero interactivo de resultados por departamento y municipio.">
+<meta property="og:type" content="website">
+
+<style>
+  :root{
+    --ink:#0a0e14;
+    --ink-2:#111722;
+    --panel:#161d2b;
+    --line:#243044;
+    --gold:#E8A21C;
+    --gold-dim:#9a6f15;
+    --red:#CE1126;
+    --blue:#1B3A8C;
+    --text:#EAEEF5;
+    --text-dim:#9aa6ba;
+    --text-faint:#5f6b80;
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{
+    background:var(--ink);
+    color:var(--text);
+    font-family:"Inter","Segoe UI",system-ui,-apple-system,sans-serif;
+    line-height:1.55;
+    -webkit-font-smoothing:antialiased;
+  }
+  .wrap{max-width:1180px;margin:0 auto;padding:0 24px}
+
+  /* ---- Top bar / flag accent ---- */
+  .flag{height:5px;display:flex}
+  .flag i{flex:1}
+  .flag i:nth-child(1){background:var(--gold)}
+  .flag i:nth-child(2){background:var(--blue)}
+  .flag i:nth-child(3){background:var(--red)}
+
+  /* ---- Header ---- */
+  header{border-bottom:1px solid var(--line);background:linear-gradient(180deg,var(--ink-2),var(--ink))}
+  .head-inner{display:flex;align-items:center;justify-content:space-between;padding:18px 0;gap:16px;flex-wrap:wrap}
+  .brand{display:flex;align-items:center;gap:12px;font-weight:700;letter-spacing:.02em}
+  .brand .mark{min-width:34px;height:34px;padding:0 6px;border:2px solid var(--gold);border-radius:7px;display:grid;place-items:center;color:var(--gold);font-size:13px;font-weight:800;letter-spacing:.04em}
+  .brand small{display:block;color:var(--text-faint);font-weight:500;font-size:11px;letter-spacing:.18em;text-transform:uppercase}
+  .visits{font-size:13px;color:var(--text-dim);display:flex;align-items:center;gap:8px;border:1px solid var(--line);padding:7px 14px;border-radius:999px;background:var(--ink-2)}
+  .visits b{color:var(--gold);font-variant-numeric:tabular-nums;font-weight:700}
+  .visits .dot{width:7px;height:7px;border-radius:50%;background:#2ec27e;box-shadow:0 0 0 0 rgba(46,194,126,.7);animation:pulse 2s infinite}
+  @keyframes pulse{0%{box-shadow:0 0 0 0 rgba(46,194,126,.6)}70%{box-shadow:0 0 0 7px rgba(46,194,126,0)}100%{box-shadow:0 0 0 0 rgba(46,194,126,0)}}
+
+  /* ---- Hero ---- */
+  .hero{padding:64px 0 38px;border-bottom:1px solid var(--line)}
+  .eyebrow{color:var(--gold);font-size:13px;letter-spacing:.24em;text-transform:uppercase;font-weight:600;margin-bottom:18px}
+  .hero h1{font-size:clamp(24px,3.4vw,38px);line-height:1.18;font-weight:800;letter-spacing:-.015em;max-width:none}
+  @media(max-width:640px){.hero h1 br{display:none}}
+  .hero h1 .hl{color:var(--gold)}
+  .hero p.lede{margin-top:20px;font-size:clamp(16px,2vw,19px);color:var(--text-dim);max-width:62ch}
+
+  .stats{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-top:38px}
+  .stat{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:18px 20px}
+  .stat .n{font-size:clamp(22px,3vw,30px);font-weight:800;font-variant-numeric:tabular-nums;letter-spacing:-.01em}
+  .stat .n.gold{color:var(--gold)}
+  .stat .l{font-size:12px;color:var(--text-faint);text-transform:uppercase;letter-spacing:.1em;margin-top:6px}
+
+  /* ---- Dashboard embed ---- */
+  .board{padding:46px 0}
+  .board h2{font-size:13px;letter-spacing:.2em;text-transform:uppercase;color:var(--text-dim);margin-bottom:16px;display:flex;align-items:center;gap:12px}
+  .board h2::after{content:"";flex:1;height:1px;background:var(--line)}
+  .frame{position:relative;width:100%;background:var(--panel);border:1px solid var(--line);border-radius:14px;overflow:hidden;box-shadow:0 24px 60px -30px rgba(0,0,0,.8)}
+  .frame .ph{aspect-ratio:16/9.5;display:grid;place-items:center;text-align:center;padding:40px;color:var(--text-faint)}
+  .frame .ph .ic{font-size:42px;margin-bottom:14px;opacity:.5}
+  .frame iframe{width:100%;height:760px;border:0;display:block;background:var(--ink-2)}
+  @media(max-width:720px){.frame iframe{height:560px}}
+  .fs-btn{position:absolute;top:12px;right:12px;z-index:5;background:rgba(10,14,20,.82);color:var(--gold);border:1px solid var(--gold-dim);border-radius:8px;padding:8px 13px;font-size:13px;font-weight:600;cursor:pointer;backdrop-filter:blur(4px);transition:background .15s,transform .15s}
+  .fs-btn:hover{background:var(--gold);color:var(--ink);transform:translateY(-1px)}
+  .frame:fullscreen{border-radius:0;background:var(--ink)}
+  .frame:fullscreen iframe{height:100vh}
+  .frame:-webkit-full-screen iframe{height:100vh}
+
+  /* ---- About / footer ---- */
+  .about{padding:40px 0;border-top:1px solid var(--line);color:var(--text-dim);font-size:15px}
+  .about .wrap{display:grid;grid-template-columns:1.4fr 1fr;gap:40px}
+  .about h3{color:var(--text);font-size:16px;margin-bottom:10px}
+  .about a{color:var(--gold);text-decoration:none}
+  .about a:hover{text-decoration:underline}
+  footer{padding:26px 0;border-top:1px solid var(--line);color:var(--text-faint);font-size:13px;display:flex;justify-content:space-between;flex-wrap:wrap;gap:10px}
+
+  .note{font-size:12.5px;color:var(--text-faint);margin-top:14px;line-height:1.5;max-width:70ch}
+
+  @media(max-width:860px){.stats{grid-template-columns:repeat(2,1fr)}.about .wrap{grid-template-columns:1fr}}
+  @media(prefers-reduced-motion:reduce){.visits .dot{animation:none}}
+
+  /* ---- Análisis ampliado ---- */
+  .analysis{padding:56px 0 24px;border-top:1px solid var(--line);background:linear-gradient(180deg,var(--ink-2),var(--ink))}
+  .a-head{max-width:74ch;margin-bottom:44px}
+  .a-title{font-size:clamp(24px,3.4vw,34px);font-weight:800;letter-spacing:-.015em;line-height:1.15;margin-top:6px}
+  .a-sub{margin-top:16px;color:var(--text-dim);font-size:17px;line-height:1.6}
+  .a-block{display:grid;grid-template-columns:64px 1fr;gap:24px;padding:30px 0;border-top:1px solid var(--line)}
+  .a-num{font-size:15px;font-weight:700;color:var(--gold);font-variant-numeric:tabular-nums;letter-spacing:.05em;padding-top:4px}
+  .a-body h3{font-size:21px;font-weight:750;line-height:1.3;letter-spacing:-.01em;color:var(--text)}
+  .a-body h4{font-size:15px;font-weight:700;color:var(--gold);margin:22px 0 6px;letter-spacing:.01em}
+  .a-body p{margin-top:12px;color:var(--text-dim);font-size:16px;line-height:1.65;max-width:72ch}
+  .a-body strong{color:var(--text);font-weight:650}
+  .a-flag{border-left:3px solid var(--gold-dim);padding-left:14px;color:var(--text-faint)!important;font-size:14.5px!important}
+  .a-table{width:100%;border-collapse:collapse;margin-top:18px;font-size:15px;max-width:760px}
+  .a-table th{text-align:left;font-weight:600;color:var(--text-faint);text-transform:uppercase;font-size:11.5px;letter-spacing:.08em;padding:0 14px 10px 0;border-bottom:1px solid var(--line)}
+  .a-table td{padding:11px 14px 11px 0;border-bottom:1px solid var(--line);color:var(--text-dim);font-variant-numeric:tabular-nums}
+  .a-table td.gold{color:var(--gold);font-weight:700}
+  .a-table td.red{color:#ff5a6e;font-weight:700}
+  .a-table td.pos{color:#2ec27e;font-weight:700}
+  .a-foot{margin-top:30px;padding-top:22px;border-top:1px solid var(--line);font-size:13px;color:var(--text-faint);max-width:80ch;line-height:1.55}
+  .a-cta{margin-top:34px;display:flex;flex-wrap:wrap;align-items:center;gap:18px;background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:24px 26px}
+  .a-cta .txt{flex:1;min-width:220px}
+  .a-cta .txt b{display:block;font-size:17px;color:var(--text);font-weight:700;margin-bottom:4px}
+  .a-cta .txt span{font-size:14.5px;color:var(--text-dim)}
+  .a-cta a.btn{display:inline-flex;align-items:center;gap:9px;background:var(--gold);color:var(--ink);font-weight:700;font-size:15px;text-decoration:none;padding:13px 22px;border-radius:9px;transition:transform .15s,box-shadow .15s;white-space:nowrap}
+  .a-cta a.btn:hover{transform:translateY(-2px);box-shadow:0 10px 24px -10px rgba(232,162,28,.6)}
+  @media(max-width:640px){
+    .a-block{grid-template-columns:1fr;gap:8px}
+    .a-num{padding-top:0}
+    .a-table{font-size:13.5px}
+  }
+</style>
+</head>
+<body>
+<div class="flag"><i></i><i></i><i></i></div>
+
+<header>
+  <div class="wrap head-inner">
+    <a class="brand" href="/" style="text-decoration:none;color:inherit">
+      <span class="mark">EP</span>
+      <span>Ernesto Pinilla Escandón<small>Business Intelligence &amp; AI · The PM Office ↗</small></span>
+    </a>
+    <div class="visits" title="Visitas a esta página">
+      <span class="dot"></span>
+      <span><b id="visitCount">—</b> visitas</span>
+    </div>
+  </div>
+</header>
+
+<section class="hero">
+  <div class="wrap">
+    <div class="eyebrow">Elecciones Presidenciales · Colombia 2026</div>
+    <h1>Proyecté quién ganaría la <span class="hl">presidencia de Colombia</span> <br>y acerté su votación con menos del 1% de error.</h1>
+    <p class="lede">Monitor electoral de la segunda vuelta: resultados oficiales analizados departamento por departamento y municipio por municipio. Datos de la Registraduría Nacional, con 99,99% de mesas escrutadas.</p>
+
+    <div class="stats">
+      <div class="stat"><div class="n gold">49,66%</div><div class="l">Abelardo De La Espriella</div></div>
+      <div class="stat"><div class="n">48,70%</div><div class="l">Iván Cepeda Castro</div></div>
+      <div class="stat"><div class="n">63,60%</div><div class="l">Participación</div></div>
+      <div class="stat"><div class="n">0,31%</div><div class="l">Error de la proyección</div></div>
+    </div>
+  </div>
+</section>
+
+<section class="board">
+  <div class="wrap">
+    <h2>Tablero interactivo · Segunda vuelta</h2>
+    <div class="frame" id="boardFrame">
+      <button class="fs-btn" id="fsBtn" title="Pantalla completa" aria-label="Ver en pantalla completa">⛶ Pantalla completa</button>
+      <iframe id="pbiFrame" title="Elecciones a presidencia 2026 2da vuelta" src="https://app.powerbi.com/view?r=eyJrIjoiMjVmZTk0ZTUtZTg0ZC00NTA2LWFlMjctZTY1ZjFiM2ZhNDk0IiwidCI6ImIzMWQxNDNmLTcyMjgtNDYyNi1iMzNlLTcyODM0ZjYxMWI1NSIsImMiOjR9&pageName=b2de0ea0894d02011590" frameborder="0" allowFullScreen="true"></iframe>
+    </div>
+    <p class="note">El tablero se actualiza con los datos oficiales publicados por la Registraduría Nacional del Estado Civil. Navega por departamento y municipio usando los filtros laterales. Análisis de carácter informativo y metodológico.</p>
+  </div>
+</section>
+
+<!-- ===================== ANÁLISIS AMPLIADO ===================== -->
+<section class="analysis">
+  <div class="wrap">
+    <div class="a-head">
+      <div class="eyebrow">Análisis completo</div>
+      <h2 class="a-title">Lo que muestran los datos de la segunda vuelta</h2>
+      <p class="a-sub">La versión extendida del análisis que publiqué en LinkedIn: precisión del modelo, mapa de resultados, lectura de la polarización, señales de integridad por verificar y la evolución de la participación entre vueltas.</p>
+    </div>
+
+    <!-- 1. Precisión -->
+    <article class="a-block">
+      <div class="a-num">01</div>
+      <div class="a-body">
+        <h3>El modelo acertó la votación del ganador con menos del 1% de error</h3>
+        <p>Construí un modelo de intención de voto para la segunda vuelta sobre datos de la Registraduría. La proyección nacional anticipó tanto al ganador como su votación con un margen muy estrecho frente al resultado oficial (con el 99,99% de las mesas escrutadas):</p>
+        <table class="a-table">
+          <thead><tr><th>Indicador</th><th>Proyección</th><th>Resultado oficial</th><th>Diferencia</th></tr></thead>
+          <tbody>
+            <tr><td>Votación de Abelardo (%)</td><td>49,97%</td><td>49,66%</td><td class="pos">0,31 pp</td></tr>
+            <tr><td>Votos de Abelardo</td><td>12.740.540</td><td>12.959.542</td><td class="pos">219.002</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </article>
+
+    <!-- 2. Mapa -->
+    <article class="a-block">
+      <div class="a-num">02</div>
+      <div class="a-body">
+        <h3>Un país partido en dos mitades geográficas</h3>
+        <p>El mapa de resultados muestra una separación territorial nítida. En el tablero de arriba, entre más <span style="color:var(--gold)">amarillo</span> está un departamento, mayor es la ventaja de Abelardo; entre más <span style="color:var(--red)">rojo</span>, mayor la de Cepeda. Los dos extremos:</p>
+        <table class="a-table">
+          <thead><tr><th>Mayor ventaja</th><th>Departamento</th><th>Abelardo</th><th>Cepeda</th></tr></thead>
+          <tbody>
+            <tr><td>Para Abelardo</td><td>Norte de Santander</td><td class="gold">76,57%</td><td>21,13%</td></tr>
+            <tr><td>Para Cepeda</td><td>Chocó</td><td>17,78%</td><td class="red">81,38%</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </article>
+
+    <!-- 3. Polarización -->
+    <article class="a-block">
+      <div class="a-num">03</div>
+      <div class="a-body">
+        <h3>33 de 34 departamentos mantuvieron su ganador entre vueltas</h3>
+        <p>Al comparar el ganador de cada departamento en primera y segunda vuelta, el mapa apenas se movió: en 33 de los 34 departamentos volvió a ganar el mismo candidato. El único que cambió de manos fue <strong>Caquetá</strong>, donde Abelardo había ganado en primera y Cepeda se impuso en segunda por apenas <strong>698 votos</strong> (102.286 contra 101.588).</p>
+        <p>La lectura es de polarización marcada: ni siquiera los votos "heredados" de los candidatos eliminados en primera vuelta movieron de forma significativa el equilibrio territorial.</p>
+      </div>
+    </article>
+
+    <!-- 4. Integridad -->
+    <article class="a-block">
+      <div class="a-num">04</div>
+      <div class="a-body">
+        <h3>Señales de integridad que merecen verificación</h3>
+        <p>En primera vuelta detecté comportamientos en la votación que estadísticamente resultaban improbables. Por eso construí este tablero: para medir la dispersión de los datos por departamento y municipio y estimar la probabilidad de fraude o coerción por parte de cualquiera de los dos candidatos. Solicité a la Registraduría el archivo plano de escrutinios a nivel de mesa; aún no lo recibo, y ampliaré el reporte cuando lo tenga.</p>
+        <p class="a-flag">Lo que sigue son <strong>hipótesis estadísticas a verificar</strong>, no conclusiones.</p>
+
+        <h4>Concentraciones extremas de voto</h4>
+        <p>En primera vuelta hubo <strong>17 municipios</strong> donde la votación por Cepeda superó el 90% de los votos válidos. En contraste, en <strong>ningún municipio del país</strong> la votación por Abelardo superó el 86,96%.</p>
+
+        <h4>Baja abstención con distribución sana</h4>
+        <p>La abstención nacional en primera vuelta fue del 42,11%. Varios municipios registraron niveles muy inferiores y, a la vez, una distribución acorde a la tendencia nacional: en Cundinamarca, municipios como Cajicá, Tocancipá, Sopó, Chía, Tenjo, Mosquera y Zipaquirá tuvieron abstención inferior al 25%, con resultados repartidos —en unos ganó Abelardo, en otros Cepeda—. Es la huella de una participación alta y estadísticamente probable.</p>
+
+        <h4>Baja abstención con concentración improbable</h4>
+        <p>En el Cauca, en cambio, hay municipios con abstención baja pero con una concentración de voto estadísticamente improbable, volcada casi en su totalidad hacia Cepeda. Son zonas de alta presencia de grupos armados ilegales (guerrillas, disidencias, Clan del Golfo), donde la veeduría y la presencia de jurados se dificultan:</p>
+        <table class="a-table">
+          <thead><tr><th>Municipio (Cauca)</th><th>Voto por Cepeda</th><th>Abstención</th></tr></thead>
+          <tbody>
+            <tr><td>Jambaló</td><td class="red">95,61%</td><td>21,26%</td></tr>
+            <tr><td>Toribío</td><td class="red">91,39%</td><td>26,83%</td></tr>
+            <tr><td>Guachené</td><td class="red">79,88%</td><td>31,36%</td></tr>
+            <tr><td>Balboa</td><td class="red">78,56%</td><td>18,40%</td></tr>
+            <tr><td>Caloto</td><td class="red">76,68%</td><td>30,26%</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </article>
+
+    <!-- 5. Participación -->
+    <article class="a-block">
+      <div class="a-num">05</div>
+      <div class="a-body">
+        <h3>La participación creció casi 10% respecto a primera vuelta</h3>
+        <p>Entre la primera y la segunda vuelta, el número de votantes pasó de 23,97 millones a 26,35 millones: <strong>2,37 millones de votos adicionales</strong>, un incremento cercano al 10% sobre la votación de primera vuelta (no sobre el censo). La participación subió del 57,89% al 63,60% del censo electoral.</p>
+      </div>
+    </article>
+
+    <p class="a-foot">Análisis de carácter informativo y metodológico. Los hallazgos sobre concentración y dispersión de voto son hipótesis que requieren confirmación con los datos oficiales a nivel de mesa.</p>
+
+    <div class="a-cta">
+      <div class="txt">
+        <b>¿Cómo se construyó la proyección?</b>
+        <span>El modelo de transferencia de votos, los supuestos exactos por candidato y qué tan cerca quedó del resultado real.</span>
+      </div>
+      <a class="btn" href="metodologia.html">Ver la metodología del modelo →</a>
+    </div>
+  </div>
+</section>
+
+<section class="board" style="padding-top:0">
+  <div class="wrap">
+    <h2>El modelo de proyección</h2>
+    <p class="note" style="margin-top:0;margin-bottom:18px;font-size:15px;color:var(--text-dim);max-width:72ch">
+      A continuación les dejo el modelo que utilicé para mi proyección. Haz clic sobre la bandera para resetear los filtros.
+    </p>
+    <div class="frame" id="boardFrame2">
+      <button class="fs-btn" id="fsBtn2" title="Pantalla completa" aria-label="Ver en pantalla completa">⛶ Pantalla completa</button>
+      <iframe id="pbiFrame2" title="Modelo de proyección — Segunda vuelta" src="https://app.powerbi.com/view?r=eyJrIjoiMjVmZTk0ZTUtZTg0ZC00NTA2LWFlMjctZTY1ZjFiM2ZhNDk0IiwidCI6ImIzMWQxNDNmLTcyMjgtNDYyNi1iMzNlLTcyODM0ZjYxMWI1NSIsImMiOjR9&pageName=717dd9cee1380587e9e6" frameborder="0" allowFullScreen="true"></iframe>
+    </div>
+  </div>
+</section>
+
+<section class="about">
+  <div class="wrap">
+    <div>
+      <h3>Sobre este análisis</h3>
+      <p>Modelo de intención de voto construido en Power BI sobre datos de la Registraduría. La proyección nacional anticipó la votación del candidato ganador con una diferencia de 0,31 puntos porcentuales (219.002 votos) frente al resultado oficial. Los hallazgos sobre dispersión y concentración de voto son hipótesis estadísticas que requieren verificación con datos a nivel de mesa.</p>
+    </div>
+    <div>
+      <h3>Autor</h3>
+      <p>Ernesto Pinilla Escandón<br>Consultor en Business Intelligence &amp; AI<br><a href="https://www.linkedin.com/in/pinillaernesto/" target="_blank" rel="noopener">linkedin.com/in/pinillaernesto →</a></p>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap" style="display:flex;justify-content:space-between;width:100%;flex-wrap:wrap;gap:10px">
+    <span>© 2026 Ernesto Pinilla Escandón · thepmoffice.com</span>
+    <span>Datos: Registraduría Nacional del Estado Civil</span>
+  </div>
+</footer>
+
+<script>
+/* ---- Contador de visitas (sin cuenta, vía CountAPI) ---- */
+/* OFFSET arranca la cuenta visible en 12.756 + hits reales */
+(function(){
+  var el = document.getElementById('visitCount');
+  var OFFSET = 12756;
+  var KEY = 'thepmoffice-monitor-2da-2026';
+  fetch('https://api.countapi.xyz/hit/thepmoffice.com/'+KEY)
+    .then(function(r){return r.json()})
+    .then(function(d){
+      var hits = (d && typeof d.value==='number') ? d.value : 0;
+      el.textContent = (OFFSET + hits).toLocaleString('es-CO');
+    })
+    .catch(function(){ el.textContent = OFFSET.toLocaleString('es-CO'); });
+})();
+
+/* ---- Pantalla completa de los tableros ---- */
+(function(){
+  function wire(frameId, btnId){
+    var frame = document.getElementById(frameId);
+    var btn = document.getElementById(btnId);
+    if(!frame||!btn) return;
+    btn.addEventListener('click', function(){
+      var fsEl = document.fullscreenElement || document.webkitFullscreenElement;
+      if(!fsEl){
+        if(frame.requestFullscreen) frame.requestFullscreen();
+        else if(frame.webkitRequestFullscreen) frame.webkitRequestFullscreen();
+      } else {
+        if(document.exitFullscreen) document.exitFullscreen();
+        else if(document.webkitExitFullscreen) document.webkitExitFullscreen();
+      }
+    });
+  }
+  wire('boardFrame','fsBtn');
+  wire('boardFrame2','fsBtn2');
+  function sync(){
+    var on = document.fullscreenElement || document.webkitFullscreenElement;
+    var label = on ? '⛶ Salir' : '⛶ Pantalla completa';
+    ['fsBtn','fsBtn2'].forEach(function(id){ var b=document.getElementById(id); if(b) b.textContent=label; });
+  }
+  document.addEventListener('fullscreenchange', sync);
+  document.addEventListener('webkitfullscreenchange', sync);
+})();
+</script>
+</body>
+</html>

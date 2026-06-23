@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Metodología del modelo — Monitor Electoral 2026</title>
+<meta name="description" content="Cómo se construyó el modelo de proyección de la segunda vuelta presidencial de Colombia 2026: transferencia de votos, supuestos y resultados.">
+
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-9R18511JE5"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-9R18511JE5');
+</script>
+
+<style>
+  :root{
+    --ink:#0a0e14;--ink-2:#111722;--panel:#161d2b;--line:#243044;
+    --gold:#E8A21C;--gold-dim:#9a6f15;--red:#CE1126;--blue:#1B3A8C;
+    --text:#EAEEF5;--text-dim:#9aa6ba;--text-faint:#5f6b80;
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{background:var(--ink);color:var(--text);font-family:"Inter","Segoe UI",system-ui,-apple-system,sans-serif;line-height:1.55;-webkit-font-smoothing:antialiased}
+  .wrap{max-width:920px;margin:0 auto;padding:0 24px}
+  .flag{height:5px;display:flex}
+  .flag i{flex:1}
+  .flag i:nth-child(1){background:var(--gold)}
+  .flag i:nth-child(2){background:var(--blue)}
+  .flag i:nth-child(3){background:var(--red)}
+
+  header{border-bottom:1px solid var(--line);background:linear-gradient(180deg,var(--ink-2),var(--ink))}
+  .head-inner{display:flex;align-items:center;justify-content:space-between;padding:16px 0;gap:16px;flex-wrap:wrap}
+  .back{display:inline-flex;align-items:center;gap:8px;color:var(--text-dim);text-decoration:none;font-size:14px;font-weight:600;border:1px solid var(--line);padding:8px 15px;border-radius:8px;transition:background .15s,color .15s}
+  .back:hover{background:var(--panel);color:var(--gold)}
+  .brand{font-size:13px;color:var(--text-faint);font-weight:600;letter-spacing:.04em}
+
+  .hero{padding:54px 0 30px;border-bottom:1px solid var(--line)}
+  .eyebrow{color:var(--gold);font-size:13px;letter-spacing:.22em;text-transform:uppercase;font-weight:600;margin-bottom:16px}
+  h1{font-size:clamp(26px,4vw,40px);line-height:1.14;font-weight:800;letter-spacing:-.02em}
+  .lede{margin-top:18px;color:var(--text-dim);font-size:18px;line-height:1.6;max-width:70ch}
+
+  section.m{padding:38px 0;border-top:1px solid var(--line)}
+  section.m:first-of-type{border-top:none}
+  .m h2{font-size:13px;letter-spacing:.18em;text-transform:uppercase;color:var(--gold);margin-bottom:18px}
+  .m h3{font-size:20px;font-weight:700;letter-spacing:-.01em;margin:26px 0 10px}
+  .m p{color:var(--text-dim);font-size:16px;line-height:1.7;max-width:74ch;margin-top:12px}
+  .m strong{color:var(--text);font-weight:650}
+  .m ol,.m ul{margin:14px 0 0 0;padding-left:0;list-style:none;max-width:74ch}
+  .m ol li,.m ul li{color:var(--text-dim);font-size:16px;line-height:1.6;padding:10px 0 10px 38px;position:relative;border-bottom:1px solid var(--line)}
+  .m ol{counter-reset:step}
+  .m ol li::before{counter-increment:step;content:counter(step);position:absolute;left:0;top:10px;width:24px;height:24px;border:1px solid var(--gold-dim);color:var(--gold);border-radius:6px;display:grid;place-items:center;font-size:12px;font-weight:700}
+  .m ul li::before{content:"→";position:absolute;left:6px;top:10px;color:var(--gold);font-weight:700}
+
+  table{width:100%;border-collapse:collapse;margin-top:20px;font-size:15px}
+  th{text-align:left;font-weight:600;color:var(--text-faint);text-transform:uppercase;font-size:11px;letter-spacing:.07em;padding:0 12px 10px 0;border-bottom:1px solid var(--line)}
+  td{padding:11px 12px 11px 0;border-bottom:1px solid var(--line);color:var(--text-dim);font-variant-numeric:tabular-nums}
+  td.name{color:var(--text);font-weight:600}
+  td.gold{color:var(--gold);font-weight:700}
+  td.red{color:#ff5a6e;font-weight:700}
+  td.b{color:var(--text-dim)}
+  tr.total td{border-top:2px solid var(--gold-dim);border-bottom:none;font-weight:700;color:var(--text);padding-top:13px}
+
+  .callout{background:var(--panel);border:1px solid var(--line);border-left:3px solid var(--gold);border-radius:10px;padding:18px 22px;margin-top:22px}
+  .callout p{margin-top:0;color:var(--text-dim)}
+  .callout .big{font-size:28px;font-weight:800;color:var(--gold);font-variant-numeric:tabular-nums;letter-spacing:-.01em}
+
+  .grid2{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:22px}
+  .kpi{background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:18px 20px}
+  .kpi .n{font-size:24px;font-weight:800;font-variant-numeric:tabular-nums}
+  .kpi .n.gold{color:var(--gold)}
+  .kpi .n.red{color:#ff5a6e}
+  .kpi .l{font-size:12px;color:var(--text-faint);text-transform:uppercase;letter-spacing:.08em;margin-top:6px}
+
+  footer{padding:30px 0;border-top:1px solid var(--line);color:var(--text-faint);font-size:13px;display:flex;justify-content:space-between;flex-wrap:wrap;gap:12px}
+  footer a{color:var(--gold);text-decoration:none}
+  .foot-note{padding:24px 0 0;font-size:13px;color:var(--text-faint);line-height:1.6;max-width:80ch}
+  @media(max-width:640px){.grid2{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<div class="flag"><i></i><i></i><i></i></div>
+
+<header>
+  <div class="wrap head-inner">
+    <a class="back" href="index.html">← Volver al análisis</a>
+    <span class="brand">Ernesto Pinilla Escandón · Monitor Electoral 2026</span>
+  </div>
+</header>
+
+<section class="hero">
+  <div class="wrap">
+    <div class="eyebrow">Metodología</div>
+    <h1>Cómo construí el modelo de proyección</h1>
+    <p class="lede">Un modelo de transferencia de votos que tomó los resultados de primera vuelta y estimó hacia dónde se movería cada bloque de votantes en la segunda. Esta es la mecánica completa, los supuestos exactos que apliqué y qué tan cerca quedó del resultado real.</p>
+  </div>
+</section>
+
+<!-- 1. Idea central -->
+<section class="m">
+  <div class="wrap">
+    <h2>01 · La idea central</h2>
+    <p>En una segunda vuelta solo quedan dos candidatos, pero los votantes son los mismos de primera. La pregunta del modelo es sencilla de plantear y difícil de responder: <strong>¿hacia dónde va el voto de cada candidato eliminado?</strong> A eso se suma un segundo componente: los ciudadanos que no votaron en primera vuelta pero sí lo harían en la segunda.</p>
+    <p>El modelo descompone el electorado en bloques de origen (cada candidato de primera vuelta, más el voto en blanco, el nulo y los nuevos votantes) y asigna a cada bloque un porcentaje de transferencia hacia Abelardo, hacia Cepeda, o hacia blanco / abstención.</p>
+  </div>
+</section>
+
+<!-- 2. Fórmula -->
+<section class="m">
+  <div class="wrap">
+    <h2>02 · La fórmula</h2>
+    <p>El total proyectado de cada candidato es la suma, sobre todos los bloques de origen, de los votos de primera vuelta multiplicados por su porcentaje de transferencia:</p>
+    <div class="callout">
+      <p style="font-family:ui-monospace,monospace;color:var(--text);font-size:15px;line-height:1.8">
+        Proyección<sub>candidato</sub> = Σ ( Votos<sub>bloque, 1ra vuelta</sub> × % transferencia<sub>bloque → candidato</sub> )
+      </p>
+    </div>
+    <p>Cada porcentaje de transferencia se ancla en la afinidad ideológica entre el candidato de origen y los dos finalistas, ajustada con criterio sobre el comportamiento histórico del electorado y la dinámica de la campaña entre vueltas.</p>
+  </div>
+</section>
+
+<!-- 3. Supuestos de transferencia -->
+<section class="m">
+  <div class="wrap">
+    <h2>03 · Los supuestos de transferencia</h2>
+    <p>Estos son los porcentajes que apliqué en la proyección final, publicada el 20 de junio de 2026, un día antes de la jornada:</p>
+    <table>
+      <thead>
+        <tr><th>Bloque de origen</th><th>→ Abelardo</th><th>→ Cepeda</th><th>→ Blanco / No vota</th></tr>
+      </thead>
+      <tbody>
+        <tr><td class="name">Voto propio de Abelardo</td><td class="gold">99,60%</td><td>0%</td><td class="b">0,40%</td></tr>
+        <tr><td class="name">Voto propio de Cepeda</td><td>0%</td><td class="red">99,80%</td><td class="b">0,20%</td></tr>
+        <tr><td class="name">Paloma Valencia</td><td class="gold">66%</td><td>23%</td><td class="b">11%</td></tr>
+        <tr><td class="name">Sergio Fajardo</td><td>24%</td><td class="red">66%</td><td class="b">10%</td></tr>
+        <tr><td class="name">Claudia López</td><td>17%</td><td class="red">78%</td><td class="b">5%</td></tr>
+        <tr><td class="name">Raúl Botero</td><td class="gold">98%</td><td>0,50%</td><td class="b">1,50%</td></tr>
+      </tbody>
+    </table>
+    <p>La lógica detrás de cada cifra: el voto de Paloma Valencia y Raúl Botero, de derecha, fluye mayoritariamente a Abelardo; el de Fajardo y Claudia López, de centro e izquierda, mayoritariamente a Cepeda. Una fracción de cada bloque siempre se pierde hacia el voto en blanco o la abstención.</p>
+  </div>
+</section>
+
+<!-- 4. Nuevos votantes -->
+<section class="m">
+  <div class="wrap">
+    <h2>04 · El módulo de nuevos votantes</h2>
+    <p>El factor más incierto de cualquier segunda vuelta es la gente que no votó en primera pero sí aparece en la segunda. La participación suele subir, y ese voto nuevo no tiene un "origen" del cual heredarse: hay que estimarlo aparte.</p>
+    <div class="grid2">
+      <div class="kpi"><div class="n">1.800.000</div><div class="l">Nuevos votantes estimados</div></div>
+      <div class="kpi"><div class="n gold">41,5% / 58,5%</div><div class="l">Reparto Abelardo / Cepeda</div></div>
+    </div>
+    <p>Estimé 1,8 millones de votantes adicionales, repartidos 41,5% para Abelardo y 58,5% para Cepeda, asumiendo que el voto nuevo de segunda vuelta tendía a favorecer ligeramente al candidato de oposición. El dato real confirmó el aumento de participación: los votantes pasaron de 23,97 a 26,35 millones.</p>
+  </div>
+</section>
+
+<!-- 5. Resultado -->
+<section class="m">
+  <div class="wrap">
+    <h2>05 · Proyección final vs resultado real</h2>
+    <p>La proyección publicada el 20 de junio y el resultado oficial del 21 de junio, con el 99,99% de las mesas escrutadas:</p>
+    <table>
+      <thead>
+        <tr><th>Candidato</th><th>Proyección (20-jun)</th><th>Resultado real (21-jun)</th><th>Diferencia</th></tr>
+      </thead>
+      <tbody>
+        <tr><td class="name">Abelardo De La Espriella</td><td>12.740.540 · 49,97%</td><td class="gold">12.959.542 · 49,66%</td><td class="b">0,31 pp</td></tr>
+        <tr><td class="name">Iván Cepeda Castro</td><td>12.050.784 · 47,27%</td><td>12.708.712 · 48,70%</td><td class="b">1,43 pp</td></tr>
+      </tbody>
+    </table>
+    <div class="callout" style="margin-top:26px">
+      <p>Error de la proyección en la votación del ganador</p>
+      <div class="big">0,31 puntos porcentuales</div>
+    </div>
+  </div>
+</section>
+
+<!-- 6. Qué no acertó -->
+<section class="m">
+  <div class="wrap">
+    <h2>06 · Lo que el modelo no acertó</h2>
+    <p>El modelo acertó al ganador y afinó su porcentaje, pero <strong>sobreestimó el margen de victoria</strong>. Proyectó una diferencia de +689.757 votos a favor de Abelardo; la diferencia real fue de <strong>+250.830</strong>.</p>
+    <p>La razón: Cepeda consolidó más voto del estimado. La transferencia hacia él desde los candidatos de centro-izquierda, y su desempeño entre los nuevos votantes, fue algo superior a lo que asumieron los supuestos. Reportarlo es parte del ejercicio: un modelo honesto muestra también dónde se desvió, no solo dónde acertó.</p>
+  </div>
+</section>
+
+<!-- 7. Fuentes -->
+<section class="m">
+  <div class="wrap">
+    <h2>07 · Datos y herramientas</h2>
+    <ul>
+      <li>Fuente primaria: resultados oficiales de la Registraduría Nacional del Estado Civil, extraídos por su API pública en primera y segunda vuelta.</li>
+      <li>Procesamiento: pipeline propio en Python (extracción, transformación y carga) hasta nivel municipio (1.189 municipios, 34 departamentos).</li>
+      <li>Modelo y visualización: Power BI, con motor de transferencia ajustable mediante parámetros para probar distintos escenarios de reparto.</li>
+    </ul>
+    <p class="foot-note">Los porcentajes de transferencia reflejan los supuestos aplicados en la corrida final del 20 de junio de 2026. El modelo es una herramienta de estimación: su valor está en la cercanía al resultado, no en una pretensión de certeza. Análisis de carácter informativo y metodológico.</p>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap" style="display:flex;justify-content:space-between;width:100%;flex-wrap:wrap;gap:12px">
+    <span>© 2026 Ernesto Pinilla Escandón · <a href="https://www.linkedin.com/in/pinillaernesto/" target="_blank" rel="noopener">LinkedIn</a></span>
+    <span><a href="index.html">← Volver al análisis y los tableros</a></span>
+  </div>
+</footer>
+</body>
+</html>
