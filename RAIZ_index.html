@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>EPCG · Ernesto Pinilla — Business Intelligence & Data Analytics</title>
+<meta name="description" content="Integramos las fuentes de datos de tu empresa en un sistema de Business Intelligence que te deja decidir en minutos, no en días. Consultoría de BI y data analytics.">
+
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-9R18511JE5"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-9R18511JE5');
+</script>
+
+<meta property="og:title" content="EPCG · Business Intelligence que convierte datos dispersos en decisiones">
+<meta property="og:description" content="Ernesto Pinilla — consultoría de BI y data analytics. De silos de información a una decisión en 10 minutos.">
+<meta property="og:type" content="website">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+
+<style>
+  :root{
+    --paper:#F6F4EF;
+    --paper-2:#EFECE4;
+    --ink:#14181F;
+    --ink-soft:#3d4654;
+    --faint:#7a8290;
+    --line:#dcd8cd;
+    --navy:#13386B;
+    --navy-2:#0d2748;
+    --accent:#C8772E;
+    --green:#2f7d57;
+    --card:#FFFFFF;
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{background:var(--paper);color:var(--ink);font-family:"Inter",system-ui,sans-serif;line-height:1.6;-webkit-font-smoothing:antialiased}
+  .wrap{max-width:1080px;margin:0 auto;padding:0 28px}
+  .mono{font-family:"JetBrains Mono",monospace}
+
+  /* Top bar */
+  header{position:sticky;top:0;z-index:20;background:rgba(246,244,239,.86);backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
+  .nav{display:flex;align-items:center;justify-content:space-between;padding:16px 0}
+  .logo{display:flex;align-items:center;gap:11px;text-decoration:none;color:var(--ink)}
+  .logo .mark{width:34px;height:34px;background:var(--navy);color:#fff;border-radius:7px;display:grid;place-items:center;font-family:"JetBrains Mono",monospace;font-weight:700;font-size:14px;letter-spacing:-.02em}
+  .logo b{font-weight:700;font-size:16px;letter-spacing:-.01em}
+  .logo small{display:block;font-size:11px;color:var(--faint);letter-spacing:.04em;font-weight:500}
+  .nav-cta{display:inline-flex;align-items:center;gap:8px;font-size:14px;font-weight:600;color:var(--navy);text-decoration:none;border:1px solid var(--navy);padding:9px 16px;border-radius:8px;transition:background .15s,color .15s}
+  .nav-cta:hover{background:var(--navy);color:#fff}
+
+  /* Hero */
+  .hero{padding:84px 0 64px;border-bottom:1px solid var(--line)}
+  .eyebrow{font-family:"JetBrains Mono",monospace;font-size:12.5px;color:var(--accent);letter-spacing:.14em;text-transform:uppercase;font-weight:500;margin-bottom:22px}
+  h1{font-family:"Fraunces",serif;font-weight:600;font-size:clamp(34px,5.4vw,60px);line-height:1.04;letter-spacing:-.02em;max-width:17ch}
+  h1 em{font-style:italic;color:var(--navy)}
+  .sub{margin-top:24px;font-size:clamp(17px,2vw,20px);color:var(--ink-soft);max-width:60ch;line-height:1.55}
+  .hero-cta{margin-top:34px;display:flex;flex-wrap:wrap;gap:14px}
+  .btn-primary{display:inline-flex;align-items:center;gap:9px;background:var(--navy);color:#fff;font-weight:600;font-size:15px;text-decoration:none;padding:14px 24px;border-radius:9px;transition:transform .15s,box-shadow .15s}
+  .btn-primary:hover{transform:translateY(-2px);box-shadow:0 14px 30px -14px rgba(19,56,107,.7)}
+  .btn-ghost{display:inline-flex;align-items:center;gap:9px;color:var(--ink);font-weight:600;font-size:15px;text-decoration:none;padding:14px 22px;border-radius:9px;border:1px solid var(--line);background:var(--card);transition:border-color .15s}
+  .btn-ghost:hover{border-color:var(--navy)}
+
+  /* The problem → result, signature element */
+  .flow{padding:60px 0;border-bottom:1px solid var(--line)}
+  .flow-grid{display:grid;grid-template-columns:1fr auto 1fr;gap:28px;align-items:center}
+  .flow-card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:26px}
+  .flow-card.problem{background:var(--paper-2)}
+  .flow-card h3{font-family:"JetBrains Mono",monospace;font-size:12px;letter-spacing:.1em;text-transform:uppercase;color:var(--faint);margin-bottom:14px;font-weight:500}
+  .flow-card .silos{display:flex;flex-direction:column;gap:9px}
+  .flow-card .silo{font-size:14.5px;color:var(--ink-soft);padding:9px 13px;background:var(--paper);border:1px solid var(--line);border-radius:7px;display:flex;justify-content:space-between;align-items:center}
+  .flow-card .silo::after{content:"⤬";color:#c98b8b;font-weight:700}
+  .flow-result{display:flex;flex-direction:column;gap:12px}
+  .flow-result .line{font-size:15px;color:var(--ink);padding:10px 14px;border-left:3px solid var(--green);background:var(--card)}
+  .flow-arrow{font-family:"JetBrains Mono",monospace;color:var(--navy);font-size:30px;text-align:center}
+  .flow-lead{text-align:center;max-width:62ch;margin:0 auto 40px}
+  .flow-lead h2{font-family:"Fraunces",serif;font-weight:600;font-size:clamp(24px,3.4vw,34px);line-height:1.2;letter-spacing:-.015em}
+  .flow-lead p{margin-top:14px;color:var(--ink-soft);font-size:17px}
+
+  /* Capabilities */
+  .caps{padding:64px 0;border-bottom:1px solid var(--line)}
+  .section-label{font-family:"JetBrains Mono",monospace;font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:var(--accent);margin-bottom:30px;font-weight:500}
+  .caps-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
+  .cap{padding:4px 0}
+  .cap .ix{font-family:"JetBrains Mono",monospace;font-size:13px;color:var(--navy);font-weight:700;margin-bottom:12px}
+  .cap h3{font-family:"Fraunces",serif;font-size:21px;font-weight:600;letter-spacing:-.01em;margin-bottom:8px}
+  .cap p{font-size:15px;color:var(--ink-soft);line-height:1.6}
+
+  /* Proof: monitor electoral */
+  .proof{padding:64px 0;border-bottom:1px solid var(--line)}
+  .proof-card{background:var(--navy);color:#fff;border-radius:18px;padding:clamp(28px,4vw,46px);position:relative;overflow:hidden}
+  .proof-card::before{content:"";position:absolute;inset:0;background:radial-gradient(900px 400px at 85% -10%,rgba(200,119,46,.22),transparent 60%);pointer-events:none}
+  .proof-tag{font-family:"JetBrains Mono",monospace;font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:#e9b277;font-weight:500;position:relative}
+  .proof h2{font-family:"Fraunces",serif;font-weight:600;font-size:clamp(24px,3.6vw,36px);line-height:1.12;margin-top:16px;max-width:22ch;position:relative}
+  .proof p{margin-top:16px;color:#c5cfdd;font-size:16.5px;max-width:62ch;position:relative;line-height:1.6}
+  .proof-stats{display:flex;flex-wrap:wrap;gap:34px;margin-top:30px;position:relative}
+  .proof-stat .n{font-family:"JetBrains Mono",monospace;font-size:30px;font-weight:700;color:#fff;letter-spacing:-.02em}
+  .proof-stat .l{font-size:13px;color:#9fb0c6;margin-top:4px}
+  .proof-link{margin-top:32px;display:inline-flex;align-items:center;gap:10px;background:#fff;color:var(--navy);font-weight:700;font-size:15px;text-decoration:none;padding:14px 24px;border-radius:9px;position:relative;transition:transform .15s}
+  .proof-link:hover{transform:translateY(-2px)}
+
+  /* About */
+  .about{padding:64px 0;border-bottom:1px solid var(--line)}
+  .about-grid{display:grid;grid-template-columns:1.5fr 1fr;gap:48px;align-items:start}
+  .about h2{font-family:"Fraunces",serif;font-weight:600;font-size:clamp(24px,3.2vw,32px);line-height:1.18;letter-spacing:-.015em;margin-bottom:18px}
+  .about p{color:var(--ink-soft);font-size:16.5px;line-height:1.7;margin-bottom:14px}
+  .about .edge{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:24px}
+  .about .edge h4{font-family:"JetBrains Mono",monospace;font-size:11.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--faint);margin-bottom:14px;font-weight:500}
+  .about .edge .big{font-family:"Fraunces",serif;font-size:38px;font-weight:600;color:var(--navy);line-height:1}
+  .about .edge .cap2{font-size:14.5px;color:var(--ink-soft);margin-top:10px;line-height:1.5}
+
+  /* Contact */
+  .contact{padding:72px 0}
+  .contact-inner{background:var(--paper-2);border:1px solid var(--line);border-radius:18px;padding:clamp(30px,4vw,52px);text-align:center}
+  .contact h2{font-family:"Fraunces",serif;font-weight:600;font-size:clamp(26px,3.6vw,38px);letter-spacing:-.015em;max-width:20ch;margin:0 auto}
+  .contact p{margin-top:16px;color:var(--ink-soft);font-size:17px;max-width:54ch;margin-left:auto;margin-right:auto}
+  .contact-btns{margin-top:30px;display:flex;flex-wrap:wrap;gap:14px;justify-content:center}
+
+  footer{border-top:1px solid var(--line);padding:30px 0;color:var(--faint);font-size:13.5px}
+  .foot-inner{display:flex;justify-content:space-between;flex-wrap:wrap;gap:12px;align-items:center}
+  footer a{color:var(--navy);text-decoration:none;font-weight:600}
+
+  @media(max-width:820px){
+    .flow-grid{grid-template-columns:1fr;gap:16px}
+    .flow-arrow{transform:rotate(90deg)}
+    .caps-grid{grid-template-columns:1fr;gap:30px}
+    .about-grid{grid-template-columns:1fr;gap:28px}
+  }
+  @media(prefers-reduced-motion:reduce){*{transition:none!important}}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="wrap nav">
+    <a class="logo" href="/">
+      <span class="mark">EP</span>
+      <span><b>The PM Office</b><small>Business Intelligence · EPCG</small></span>
+    </a>
+    <a class="nav-cta" href="#contacto">Hablemos</a>
+  </div>
+</header>
+
+<section class="hero">
+  <div class="wrap">
+    <div class="eyebrow">Business Intelligence · Data Analytics</div>
+    <h1>Tu empresa tiene los datos. <em>Nosotros hacemos que generen valor</em>.</h1>
+    <p class="sub">Integramos las fuentes de información de tu empresa —contabilidad, ventas, CRM, ERP, e-commerce— en un solo sistema que le muestra a la alta gerencia dónde está parada y dónde se está perdiendo valor. En minutos, no en días.</p>
+    <div class="hero-cta">
+      <a class="btn-primary" href="#contacto">Conversemos sobre tu operación →</a>
+      <a class="btn-ghost" href="/eleccionescolombia">Ver un caso en vivo</a>
+    </div>
+  </div>
+</section>
+
+<section class="flow">
+  <div class="wrap">
+    <div class="flow-lead">
+      <h2>El problema casi nunca es falta de datos. Es que viven separados.</h2>
+      <p>Contabilidad no habla con ventas. El CRM no habla con el ERP. El resultado: reportes manuales, decisiones tardías y costos que suben sin que nadie lo note.</p>
+    </div>
+    <div class="flow-grid">
+      <div class="flow-card problem">
+        <h3>Antes · datos en silos</h3>
+        <div class="silos">
+          <span class="silo">Contabilidad</span>
+          <span class="silo">Ventas / CRM</span>
+          <span class="silo">ERP / Inventario</span>
+          <span class="silo">E-commerce</span>
+        </div>
+      </div>
+      <div class="flow-arrow mono">→</div>
+      <div class="flow-card">
+        <h3>Después · una sola verdad</h3>
+        <div class="flow-result">
+          <span class="line">KPIs integrados con contexto macro y sectorial</span>
+          <span class="line">Benchmark real contra tu industria</span>
+          <span class="line">Los puntos exactos donde se fuga el valor</span>
+          <span class="line">Decisión en 10 minutos, no en una semana</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="caps">
+  <div class="wrap">
+    <div class="section-label">Lo que hacemos</div>
+    <div class="caps-grid">
+      <div class="cap">
+        <div class="ix">/01</div>
+        <h3>Integración de datos</h3>
+        <p>Conectamos fuentes que hoy no se hablan —SAP, HubSpot, contabilidad, Excel, e-commerce— y las consolidamos en un modelo de datos único y confiable.</p>
+      </div>
+      <div class="cap">
+        <div class="ix">/02</div>
+        <h3>Tableros gerenciales</h3>
+        <p>Construimos dashboards en Power BI diseñados para decidir, no para decorar. El CEO ve su negocio completo en una pantalla.</p>
+      </div>
+      <div class="cap">
+        <div class="ix">/03</div>
+        <h3>Benchmarking sectorial</h3>
+        <p>Comparamos tu desempeño contra miles de empresas reales de tu industria, usando una base propia de estados financieros colombianos.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="proof">
+  <div class="wrap">
+    <div class="proof-card">
+      <div class="proof-tag">Caso en vivo · Datos electorales</div>
+      <h2>Proyecté al presidente electo de Colombia con menos del 1% de error.</h2>
+      <p>Un sistema de extracción, modelado y visualización que procesó los resultados oficiales de la Registraduría hasta nivel municipio —1.189 municipios, 34 departamentos— y anticipó el resultado de la segunda vuelta. La misma metodología que aplicamos a la operación de una empresa, aplicada a 26 millones de votos.</p>
+      <div class="proof-stats">
+        <div class="proof-stat"><div class="n">0,31%</div><div class="l">Error de la proyección</div></div>
+        <div class="proof-stat"><div class="n">1.189</div><div class="l">Municipios procesados</div></div>
+        <div class="proof-stat"><div class="n">26,3M</div><div class="l">Votos analizados</div></div>
+      </div>
+      <a class="proof-link" href="/eleccionescolombia">Explorar el tablero interactivo →</a>
+    </div>
+  </div>
+</section>
+
+<section class="about">
+  <div class="wrap about-grid">
+    <div>
+      <h2>Una metodología probada, no un tablero genérico.</h2>
+      <p>Liderados por Ernesto Pinilla, llevamos el trabajo de datos de empresas en dos países, con un proceso documentado de cinco fases: del inventario de sistemas a la limpieza de datos —la parte invisible y decisiva— hasta tableros que la gerencia usa todos los días.</p>
+      <p>El valor no está en el gráfico bonito. Está en el trabajo que casi nadie quiere hacer: ordenar datos sucios, conectar sistemas que se ignoran, y traducir todo eso en una decisión que el CEO pueda tomar antes del almuerzo.</p>
+    </div>
+    <div class="edge">
+      <h4>El activo diferencial</h4>
+      <div class="big">~10.000</div>
+      <div class="cap2">empresas colombianas con estados financieros en una base propia, lista para comparar tu desempeño contra tu sector real —sin trabajo adicional.</div>
+    </div>
+  </div>
+</section>
+
+<section class="contact" id="contacto">
+  <div class="wrap">
+    <div class="contact-inner">
+      <h2>¿Tus datos están trabajando para ti, o solo se están acumulando?</h2>
+      <p>Si eres CEO, CFO o tomas las decisiones, conversemos. Una llamada corta basta para ver si hay valor que estás dejando sobre la mesa.</p>
+      <div class="contact-btns">
+        <a class="btn-primary" href="mailto:pinillaernesto@thepmoffice.com?subject=Consulta%20Business%20Intelligence%20-%20EPCG">Escríbenos por correo →</a>
+        <a class="btn-ghost" href="https://www.linkedin.com/in/pinillaernesto/" target="_blank" rel="noopener">Conectar en LinkedIn</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap foot-inner">
+    <span>© 2026 The PM Office · EPCG · Ernesto Pinilla Escandón</span>
+    <span><a href="https://www.linkedin.com/in/pinillaernesto/" target="_blank" rel="noopener">LinkedIn</a> · <a href="/eleccionescolombia">Caso electoral</a></span>
+  </div>
+</footer>
+
+</body>
+</html>
